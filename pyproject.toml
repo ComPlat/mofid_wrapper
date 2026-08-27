@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mofid_wrapper"
+version = "0.1.0"
+description = "Precompiled, pip-installable wrapper around MOFid (metal-organic framework identification), no C++ compiler required"
+readme = "README.md"
+license = "GPL-2.0-or-later"
+license-files = ["LICENSE", "THIRD_PARTY_LICENSES/*"]
+requires-python = ">=3.9"
+authors = [
+    { name = "Konrad Kraemer", email = "konradkraemer1991@gmail.com" },
+]
+keywords = ["chemistry", "mof", "metal-organic-framework", "cheminformatics", "openbabel"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Scientific/Engineering :: Chemistry",
+]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.urls]
+homepage = "https://github.com/Konrad1991/mofid_wrapper"
+repository = "https://github.com/Konrad1991/mofid_wrapper"
+upstream = "https://github.com/snurr-group/mofid"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["mofid_wrapper*"]
+
+[tool.setuptools.package-data]
+mofid_wrapper = ["_vendor/**/*"]

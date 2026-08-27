@@ -1,0 +1,40 @@
+name: build-and-test
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-wheel:
+    runs-on: ubuntu-latest
+    container: quay.io/pypa/manylinux_2_28_x86_64
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build binaries (patched, pinned upstream mofid commit)
+        run: bash ci/build_binaries.sh
+      - name: Build wheel
+        run: bash ci/build_wheel.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheel
+          path: dist/*.whl
+          if-no-files-found: error
+
+  # Deliberately a PLAIN runner, not the manylinux build container -- this is
+  # the automated form of "does it actually work once relocated", not just
+  # "did it build".
+  test-wheel:
+    needs: build-wheel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: wheel
+          path: dist
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install Java (runtime dependency for Systre)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq default-jre-headless
+      - run: pip install dist/*.whl pytest
+      - run: pytest -v tests/

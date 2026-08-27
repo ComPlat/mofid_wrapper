@@ -1,0 +1,76 @@
+diff --git a/src/compare.cpp b/src/compare.cpp
+index 00e84a22..0851b53a 100644
+--- a/src/compare.cpp
++++ b/src/compare.cpp
+@@ -26,8 +26,8 @@ int main(int argc, char* argv[]) {
+ 	_putenv_s("BABEL_DATADIR", LOCAL_OB_DATADIR);
+ 	_putenv_s("BABEL_LIBDIR", LOCAL_OB_LIBDIR);
+ #else
+-	setenv("BABEL_DATADIR", LOCAL_OB_DATADIR, 1);
+-	setenv("BABEL_LIBDIR", LOCAL_OB_LIBDIR, 1);
++	setenv("BABEL_DATADIR", LOCAL_OB_DATADIR, 0);
++	setenv("BABEL_LIBDIR", LOCAL_OB_LIBDIR, 0);
+ #endif
+     OBMol mol1{getMolFromCIF(argv[1])};
+     OBMol mol2{getMolFromCIF(argv[2])};
+diff --git a/src/sbu.cpp b/src/sbu.cpp
+index 25431486..2f23cd0d 100644
+--- a/src/sbu.cpp
++++ b/src/sbu.cpp
+@@ -85,8 +85,8 @@ int main(int argc, char* argv[])
+ 	_putenv_s("BABEL_DATADIR", LOCAL_OB_DATADIR);
+ 	_putenv_s("BABEL_LIBDIR", LOCAL_OB_LIBDIR);
+ #else
+-	setenv("BABEL_DATADIR", LOCAL_OB_DATADIR, 1);
+-	setenv("BABEL_LIBDIR", LOCAL_OB_LIBDIR, 1);
++	setenv("BABEL_DATADIR", LOCAL_OB_DATADIR, 0);
++	setenv("BABEL_LIBDIR", LOCAL_OB_LIBDIR, 0);
+ #endif
+ 
+ 	std::string mof_results = analyzeMOF(std::string(filename), output_dir);
+diff --git a/src/searchdb.cpp b/src/searchdb.cpp
+index 54a5dcb8..dcde6daa 100644
+--- a/src/searchdb.cpp
++++ b/src/searchdb.cpp
+@@ -34,9 +34,9 @@ int main(int argc, char* argv[])
+ 
+ 	// Set up the babel data directory to use a local copy customized for MOFs
+ 	// (instead of system-wide Open Babel data) for this particular program
+-	setenv("BABEL_DATADIR", LOCAL_OB_DATADIR, 1);
++	setenv("BABEL_DATADIR", LOCAL_OB_DATADIR, 0);
+     // Set up the babel shared libraries
+-    setenv("BABEL_LIBDIR", LOCAL_OB_LIBDIR, 1);
++    setenv("BABEL_LIBDIR", LOCAL_OB_LIBDIR, 0);
+ 
+ 	std::cout << runSearch(pattern, db_file, exclusion_search);
+ }
+diff --git a/src/sobgrep.cpp b/src/sobgrep.cpp
+index be50f9a2..6dd2fcc1 100644
+--- a/src/sobgrep.cpp
++++ b/src/sobgrep.cpp
+@@ -52,8 +52,8 @@ int main(int argc, char* argv[])
+ 	_putenv_s("BABEL_DATADIR", LOCAL_OB_DATADIR);
+ 	_putenv_s("BABEL_LIBDIR", LOCAL_OB_LIBDIR);
+ #else
+-	setenv("BABEL_DATADIR", LOCAL_OB_DATADIR, 1);
+-	setenv("BABEL_LIBDIR", LOCAL_OB_LIBDIR, 1);
++	setenv("BABEL_DATADIR", LOCAL_OB_DATADIR, 0);
++	setenv("BABEL_LIBDIR", LOCAL_OB_LIBDIR, 0);
+ #endif
+ 
+ 	// Read CIF as single bonds
+diff --git a/src/tsfm_smiles.cpp b/src/tsfm_smiles.cpp
+index 6844f0b9..8518c092 100644
+--- a/src/tsfm_smiles.cpp
++++ b/src/tsfm_smiles.cpp
+@@ -30,8 +30,8 @@ int main(int argc, char* argv[])
+ 	_putenv_s("BABEL_DATADIR", LOCAL_OB_DATADIR);
+ 	_putenv_s("BABEL_LIBDIR", LOCAL_OB_LIBDIR);
+ #else
+-	setenv("BABEL_DATADIR", LOCAL_OB_DATADIR, 1);
+-	setenv("BABEL_LIBDIR", LOCAL_OB_LIBDIR, 1);
++	setenv("BABEL_DATADIR", LOCAL_OB_DATADIR, 0);
++	setenv("BABEL_LIBDIR", LOCAL_OB_LIBDIR, 0);
+ #endif
+ 
+ 	// Read input SMILES
