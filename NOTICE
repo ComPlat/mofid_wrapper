@@ -1,0 +1,73 @@
+mofid_wrapper
+=============
+
+Copyright (C) 2026 Konrad Kraemer and contributors.
+
+mofid_wrapper is licensed under the GNU General Public License, version 2 or
+(at your option) any later version (GPL-2.0-or-later). See the LICENSE file.
+
+This package is a thin Python wrapper. Its wheel redistributes precompiled
+Linux x86_64 binaries and data files that are the work of others. Each is
+listed below with its license and a pointer to the corresponding source, as
+required by the licenses concerned. Full license texts are in the
+THIRD_PARTY_LICENSES/ directory (and are also installed alongside the
+package).
+
+-----------------------------------------------------------------------------
+Bundled third-party components
+-----------------------------------------------------------------------------
+
+1. MOFid  --  the C++ CLI tools `sbu`, `sobgrep`, `searchdb`, `tsfm_smiles`,
+   `compare`.
+   Upstream: https://github.com/snurr-group/mofid
+   License:  GPL-2.0-or-later.  Text: THIRD_PARTY_LICENSES/mofid_LICENSE
+   Source:   built from upstream mofid at the exact commit recorded in
+             src/mofid_wrapper/_build_info.py (MOFID_SOURCE_COMMIT) and in
+             ci/build_binaries.sh (MOFID_COMMIT). A small patch is applied
+             first: ci/patches/0001-babel-env-no-overwrite.patch.
+
+2. Open Babel  --  the `obabel` executable, the core shared libraries
+   `libopenbabel.so*`, and the format/charge/descriptor plugins under
+   _vendor/lib/plugins/, plus the data files under
+   _vendor/share/openbabel_data/.
+   Upstream: https://github.com/openbabel/openbabel
+   License:  GPL-2.0-or-later.  Text: THIRD_PARTY_LICENSES/openbabel_COPYING
+   Source:   built from the Open Babel revision fetched by
+             ci/build_binaries.sh (see that script for the exact checkout and
+             CMake flags used).
+
+3. InChI library  --  `libinchi.so.0.4.1` (with the libinchi.so /
+   libinchi.so.0 symlinks), built from the InChI sources vendored inside
+   Open Babel and loaded by Open Babel's inchiformat plugin.
+   Version:  InChI Software 1.04 (2011).
+   License:  IUPAC/InChI-Trust InChI Licence No. 1.0 (LGPL-style copyleft).
+             Text: THIRD_PARTY_LICENSES/inchi_LICENSE
+             Notes: THIRD_PARTY_LICENSES/inchi_NOTICE.md
+   Source:   Open Babel tree, src/formats/libinchi/ (same checkout as item 2);
+             upstream https://github.com/IUPAC-InChI/InChI
+
+4. Systre / Gavrog  --  `Systre-experimental-20.8.0.jar`
+   (_vendor/share/resources/), used unmodified to classify MOF topology.
+   Upstream: https://github.com/odf/gavrog
+   License:  Apache License 2.0.  Text: THIRD_PARTY_LICENSES/gavrog_LICENSE
+             Notes: THIRD_PARTY_LICENSES/systre_NOTICE.md
+   Source:   https://github.com/odf/gavrog
+
+5. RCSR net archive  --  `RCSRnets.arc` (_vendor/share/resources/), the
+   reference archive of named nets that Systre matches against.
+   Upstream: http://rcsr.net/  (also bundled by upstream mofid)
+   Terms:    factual database, freely usable for research with citation.
+             Notes: THIRD_PARTY_LICENSES/rcsr_NOTICE.md
+
+-----------------------------------------------------------------------------
+Corresponding source (GPL section 3 / InChI licence section 6)
+-----------------------------------------------------------------------------
+
+The binaries in items 1-3 above are covered by copyleft licenses that require
+the corresponding source to be available. That source is not itself shipped
+in the wheel; it is fully specified by, and reproducible from,
+ci/build_binaries.sh in this repository, which pins every upstream revision
+and records the toolchain and build flags. To obtain it, check out the
+commits/revisions named there from the upstream repositories listed above.
+The maintainers will also provide the corresponding source on request for as
+long as the wheel is distributed.

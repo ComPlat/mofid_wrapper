@@ -46,12 +46,28 @@ unconditionally clobbers the environment variables this package needs to set
 for the binaries to find their bundled data/plugins on someone else's
 machine.
 
-The resulting binaries + Open Babel's data/plugins + the Systre jar are
-bundled as package data and shipped as a `manylinux_2_28_x86_64`-tagged
-wheel.
+The resulting binaries + Open Babel's data/plugins + the InChI shared library
++ the Systre jar + the RCSR net archive are bundled as package data and
+shipped as a `manylinux_2_28_x86_64`-tagged wheel.
 
 ## License
 
-GPL-2.0-or-later, matching upstream mofid and Open Babel (both GPLv2), whose
-binaries this package redistributes. See `LICENSE` and
-`THIRD_PARTY_LICENSES/`.
+`mofid_wrapper`'s own code is **GPL-2.0-or-later**. See `LICENSE`.
+
+The wheel redistributes precompiled binaries and data files that are the work
+of others. `NOTICE` (repo root, also installed with the package) lists every
+bundled component with its license and a pointer to its corresponding source;
+full license texts are in `THIRD_PARTY_LICENSES/`:
+
+| Component | Bundled as | License |
+|---|---|---|
+| [MOFid](https://github.com/snurr-group/mofid) | `sbu`, `sobgrep`, `searchdb`, `tsfm_smiles`, `compare` | GPL-2.0-or-later |
+| [Open Babel](https://github.com/openbabel/openbabel) | `obabel`, `libopenbabel.so*`, format plugins, data | GPL-2.0-or-later |
+| [InChI](https://github.com/IUPAC-InChI/InChI) library (v1.04) | `libinchi.so*` (via Open Babel's inchiformat plugin) | IUPAC/InChI-Trust InChI Licence No. 1.0 |
+| [Systre / Gavrog](https://github.com/odf/gavrog) | `Systre-experimental-20.8.0.jar` | Apache-2.0 |
+| [RCSR](http://rcsr.net/) net archive | `RCSRnets.arc` | factual database, free for research w/ citation |
+
+The copyleft components (MOFid, Open Babel, InChI) require their corresponding
+source to be available. It is not shipped in the wheel but is fully specified
+by `ci/build_binaries.sh`, which pins every upstream revision and records the
+toolchain; see `NOTICE` for details.
