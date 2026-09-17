@@ -37,6 +37,23 @@ jobs:
       - run: pip install dist/*.whl pytest
       - run: pytest -v tests/
 
+  github-release:
+    # Attaches the tested wheel to the GitHub release, so pip can install it by
+    # URL. Deliberately independent of `publish`: a PyPI upload that fails (e.g.
+    # a missing trusted publisher) must not keep the wheel from being available.
+    needs: test-wheel
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # required to attach assets to the release
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: wheel
+          path: dist
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.whl
+
   publish:
     needs: test-wheel
     runs-on: ubuntu-latest
