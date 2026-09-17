@@ -1,14 +1,62 @@
 # mofid_wrapper
 
-A pip-installable wrapper around [MOFid](https://github.com/snurr-group/mofid)
-(rapid identification and analysis of metal-organic frameworks). The wheel
-ships precompiled Linux x86_64 binaries (Open Babel + mofid's own CLI tools),
-so installing does **not** require a C/C++ compiler or building Open Babel
-from source.
+A pip-installable wrapper around [MOFid](https://github.com/snurr-group/mofid) for rapid identification and analysis of metal-organic frameworks.
+
+Prebuilt release wheels for Linux x86_64 include the required native binaries (Open Babel and MOFid's CLI tools). Installing one of these wheels does **not** require a C/C++ compiler and does not build Open Babel from source.
+
+## Installation
+
+### Option 1: Install the prebuilt wheel directly from a GitHub release
+
+This is the recommended installation method.
 
 ```bash
-pip install mofid_wrapper
+pip install https://github.com/ComPlat/mofid_wrapper/releases/download/<VERSION>/<WHEEL_FILE>.whl
 ```
+
+For example:
+
+```bash
+pip install https://github.com/ComPlat/mofid_wrapper/releases/download/v0.1.0/mofid_wrapper-0.1.0-py3-none-manylinux_2_28_x86_64.whl
+```
+
+The wheel is built beforehand by GitHub Actions and already contains the required Open Babel and MOFid binaries. No local C/C++ compilation is performed during installation.
+
+### Option 2: Download the wheel first and install it locally
+
+Download the appropriate `.whl` file from the [GitHub Releases](https://github.com/ComPlat/mofid_wrapper/releases) page and then install it with:
+
+```bash
+pip install ./mofid_wrapper-0.1.0-py3-none-manylinux_2_28_x86_64.whl
+```
+
+This is equivalent to installing the wheel directly from its GitHub release URL. The native binaries are already included, so no local compiler is required.
+
+### Option 3: Build from a local source checkout
+
+If you clone the repository instead of installing a prebuilt wheel, the vendored native binaries are **not** present in the Git repository and must be built locally first.
+
+```bash
+git clone https://github.com/ComPlat/mofid_wrapper.git
+cd mofid_wrapper
+
+./ci/build_binaries.sh
+pip install .
+```
+
+`ci/build_binaries.sh` builds Open Babel and the required MOFid CLI tools and places them into the package's `_vendor` directory. `pip install .` then builds and installs the Python package using these locally built binaries.
+
+This installation method therefore requires the necessary C/C++ compiler and build dependencies.
+
+Running only:
+
+```bash
+git clone https://github.com/ComPlat/mofid_wrapper.git
+cd mofid_wrapper
+pip install .
+```
+
+is **not sufficient**, because `pip install .` does not automatically run `ci/build_binaries.sh` and the native Open Babel/MOFid binaries are not stored in the Git repository.
 
 ## Usage
 
